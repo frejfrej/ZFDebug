@@ -43,6 +43,7 @@ class ZFDebug_Controller_Plugin_Debug extends Zend_Controller_Plugin_Abstract
      * @var array
      */
     public static $standardPlugins = array(
+        'Auth',
         'Cache',
         'Html',
         'Doctrine2',
