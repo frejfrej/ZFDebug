@@ -11,21 +11,6 @@
  */
 
 /**
- * @see Zend_Controller_Exception
- */
-require_once 'Zend/Controller/Exception.php';
-
-/**
- * @see Zend_Version
- */
-require_once 'Zend/Version.php';
-
-/**
- * @see ZFDebug_Controller_Plugin_Debug_Plugin_Text
- */
-require_once 'ZFDebug/Controller/Plugin/Debug/Plugin/Text.php';
-
-/**
  * @category   ZFDebug
  * @package    ZFDebug_Controller
  * @subpackage Plugins
@@ -60,7 +45,7 @@ class ZFDebug_Controller_Plugin_Debug extends Zend_Controller_Plugin_Abstract
     public static $standardPlugins = array(
         'Cache',
         'Html',
-        'Database',
+        'Doctrine2',
         'Exception',
         'File',
         'Variables',
@@ -74,7 +59,7 @@ class ZFDebug_Controller_Plugin_Debug extends Zend_Controller_Plugin_Abstract
      *
      * @var string
      */
-    protected $_version = '1.6.2';
+    protected $_version = '1.6.3_dev';
 
     /**
      * Creates a new instance of the Debug Bar
@@ -327,7 +312,6 @@ class ZFDebug_Controller_Plugin_Debug extends Zend_Controller_Plugin_Abstract
                 $pluginClass = $plugin;
             }
 
-            require_once str_replace('_', DIRECTORY_SEPARATOR, $pluginClass) . '.php';
             $object = new $pluginClass($options);
             $this->registerPlugin($object);
         }
@@ -479,6 +463,9 @@ class ZFDebug_Controller_Plugin_Debug extends Zend_Controller_Plugin_Abstract
             document.onmouseup=function(e){
                 clearTimeout(ZFDebugResizeTimer);
             }
+            $(".arrayexpandcollapse").click(function() {
+                $(this).next(".pre").toggle();
+            });
         };
 
         function ZFDebugResize()

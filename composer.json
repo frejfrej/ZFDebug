@@ -1,8 +1,8 @@
 {
-    "name": "jokkedk/zfdebug",
+    "name": "frejfrej/zfdebug",
     "description": "ZFDebug is a plugin for the Zend Framework for PHP5, providing useful debug information displayed in a small bar at the bottom of every page.",
     "type": "library",
-    "homepage": "https://github.com/jokkedk/ZFDebug",
+    "homepage": "https://github.com/frejfrej/ZFDebug",
     "license": "BSD-3-Clause",
     "autoload": {
         "psr-0": {
@@ -24,6 +24,36 @@
         {
             "name": "Andreas Pankratz",
             "homepage": "http://www.bangal.de",
+            "role": "Contributor"
+        },
+        {
+            "name": "François-Régis Jaunatre",
+            "homepage": "http://www.webconcess.com",
+            "role": "Contributor"
+        },
+        {
+            "name": "reneaigle",
+            "homepage": "https://github.com/reneaigle",
+            "role": "Contributor"
+        },
+        {
+            "name": "Montmere Limited",
+            "homepage": "https://github.com/MontmereLimited",
+            "role": "Contributor"
+        },
+        {
+            "name": "aur1mas",
+            "homepage": "https://github.com/aur1mas",
+            "role": "Contributor"
+        },
+        {
+            "name": "Kushan Jayatilleke",
+            "homepage": "https://github.com/kushanj1",
+            "role": "Contributor"
+        },
+        {
+            "name": "Łukasz Ciołecki",
+            "homepage": "https://github.com/lciolecki",
             "role": "Contributor"
         }
     ]

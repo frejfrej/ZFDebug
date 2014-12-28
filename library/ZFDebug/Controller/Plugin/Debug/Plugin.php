@@ -76,7 +76,9 @@ class ZFDebug_Controller_Plugin_Debug_Plugin
             }
             else if (is_array($value))
             {
-                $retVal .= $key.' => '.self::_cleanData($value);
+//                $retVal .= $key.' => '.self::_cleanData($value);
+                $retVal .= '<a href="#" style="text-decoration:none" class="arrayexpandcollapse">&plusmn;</a>&nbsp;' . $key . ' => '.self::_cleanData($value);
+
             }
             else if (is_object($value))
             {
