@@ -89,7 +89,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Cache
      */
     public function getPanel()
     {
-        $panel = '';
+        $panel = '<div style="width:50%;float:left;">';
 
         $linebreak = $this->getLinebreak();
 
@@ -158,6 +158,14 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Cache
             }
             $panel .= 'Valid Cache Size: ' . round($cacheSize/1024, 1) . 'K';
         }
+
+        $panel = '</div><div style="width:45%;float:left;">';
+
+        // adds form to clear the cache
+        $panel .= '<h4>Clear cache</h4>' . $linebreak . '<form method="post"><button name="clear_cache" type="submit" class="btn">Clear cache</button></form>';
+
+        $panel .= '</div>';
+
         return $panel;
     }
     
