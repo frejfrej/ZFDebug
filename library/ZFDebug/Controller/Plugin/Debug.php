@@ -49,6 +49,7 @@ class ZFDebug_Controller_Plugin_Debug extends Zend_Controller_Plugin_Abstract
         'Doctrine2',
         'Exception',
         'File',
+        'Locale',
         'Variables',
         'Constants',
         'Log'
