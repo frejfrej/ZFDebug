@@ -85,7 +85,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Locale extends ZFDebug_Controller_P
         $html .= 'Zend Locale is set to <strong>' . $locale . '</strong>' . $linebreak;
 
         // adds form to clear the cache
-        $panel .= '<h4>Change Locale</h4>' . $linebreak . '<form method="post"><input name="debug_locale" type="text" placeholder="Locale..." class="input-small"></input></form>';
+        $html .= '<h4>Change Locale</h4>' . $linebreak . '<form method="post"><input name="debug_locale" type="text" placeholder="Locale..." class="input-small"></input></form>';
 
         return $html;
     }
