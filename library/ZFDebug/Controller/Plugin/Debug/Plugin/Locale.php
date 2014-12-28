@@ -38,7 +38,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Locale extends ZFDebug_Controller_P
      */
     public function __construct()
     {
-
+        $this->_changeLocale();
     }
 
     /**
@@ -90,7 +90,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Locale extends ZFDebug_Controller_P
         return $html;
     }
 
-    private function changeLocale()
+    private function _changeLocale()
     {
         // Changing locale via debug box, must be done before bootstrap
         if (APPLICATION_ENV !== 'production'){
