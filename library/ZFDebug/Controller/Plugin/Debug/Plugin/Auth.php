@@ -48,6 +48,13 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Auth implements ZFDebug_Controller_
     protected $_role = 'role';
 
     /**
+     * Contains "column name" for the role
+     *
+     * @var string
+     */
+    protected $_callback = null;
+
+    /**
      * Contains Acls for this application
      *
      * @var Zend_Acl
@@ -69,6 +76,9 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Auth implements ZFDebug_Controller_
         }
         if (isset($options['role'])) {
             $this->_role = $options['role'];
+        }
+        if (isset($options['callback'])) {
+            $this->_callback = $options['callback'];
         }
     }
 
@@ -112,6 +122,9 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Auth implements ZFDebug_Controller_
         } else {
             $username = $this->_auth->getIdentity();
             $role = '';
+        }
+        if (is_callable($this->_callback)) {
+            $username = $this->_callback($username);
         }
         return $username . ' (' . $role . ')';
     }
