@@ -93,16 +93,9 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Locale extends ZFDebug_Controller_P
     private function _changeLocale()
     {
         // Changing locale via debug box, must be done before bootstrap
-        if (APPLICATION_ENV !== 'production'){
-            if (isset($_POST['debug_locale']) && !empty($_POST['debug_locale'])){
-                $helper = new Yujia_Controller_Action_Helper_Locale();
-                $helper->locale($_POST['debug_locale']);
-            }
-
-            if (isset($_POST['clear_cache'])
-                    || ( isset($_GET['clear_cache']) && (APPLICATION_ENV !== 'production') )){
-                define('CLEAR_CACHE', true);
-            }
+        if (APPLICATION_ENV !== 'production' && isset($_POST['debug_locale']) && !empty($_POST['debug_locale'])){
+            $helper = new Yujia_Controller_Action_Helper_Locale();
+            $helper->locale($_POST['debug_locale']);
         }
     }
 
