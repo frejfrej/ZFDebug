@@ -34,6 +34,11 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Cache
     protected $_cacheBackends = array();
 
     /**
+     * @var callable
+     */
+    protected $_callback = array();
+
+    /**
      * Create ZFDebug_Controller_Plugin_Debug_Plugin_Cache
      *
      * @param array $options
@@ -49,6 +54,10 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Cache
             if ($backend instanceof Zend_Cache_Backend_ExtendedInterface ) {
                 $this->_cacheBackends[$name] = $backend;
             }
+        }
+        if (isset($options['callback']) && is_callable($options['callback'])) {
+            $this->_callback = $options['callback'];
+            call_user_func($this->_callback);
         }
     }
 
@@ -130,10 +139,6 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Cache
                         . $cache['num_cached_scripts'].' Files cached' . $linebreak
                         . $cache['hits'] . ' Hits ('
                         . round($cache['opcache_hit_rate'], 1) . '%)';
-                // clear cache if asked to
-                if (isset($_GET['CLEAR_CACHE'])) {
-                    $this->clearCache();
-                }
             }
         }
 
@@ -164,20 +169,5 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Cache
 
         return $panel;
     }
-    
-    public function clearCache() {
-        $options = Zend_Registry::get('config');
-        $cache = Zend_Registry::get('Zend_Cache');
-        // if ZendOpcache is up, then we clean it
-        if (function_exists('opcache_get_status')) {
-            opcache_reset();
-        }
-        // actually clean the cache if tags are set in options
-        if (isset($options['cache']['frontend']['options']['default_options']['tags'])) {
-            $cache->clean('matchingTag', $options['cache']['frontend']['options']['default_options']['tags']);
-        }
-    }
-    
-    
     
 }

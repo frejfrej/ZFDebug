@@ -30,15 +30,24 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Locale extends ZFDebug_Controller_P
      * @var Zend_Controller_Request_Abstract
      */
     protected $_request;
+    
+    /**
+     * Callback function to clear the cache
+     * @var type function
+     */
+    protected $_callback;
 
     /**
      * Create ZFDebug_Controller_Plugin_Debug_Plugin_Variables
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(array $options = array())
     {
-        $this->_changeLocale();
+        if (isset($options['callback']) && is_callable($options['callback'])) {
+            $this->_callback = $options['callback'];
+            call_user_func($this->_callback);
+        }
     }
 
     /**
@@ -88,15 +97,6 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Locale extends ZFDebug_Controller_P
         $html .= '<h4>Change Locale</h4>' . $linebreak . '<form method="post"><input name="debug_locale" type="text" placeholder="Locale..." class="input-small"></input></form>';
 
         return $html;
-    }
-
-    private function _changeLocale()
-    {
-        // Changing locale via debug box, must be done before bootstrap
-        if (APPLICATION_ENV !== 'production' && isset($_POST['debug_locale']) && !empty($_POST['debug_locale'])){
-            $helper = new Yujia_Controller_Action_Helper_Locale();
-            $helper->locale($_POST['debug_locale']);
-        }
     }
 
 }

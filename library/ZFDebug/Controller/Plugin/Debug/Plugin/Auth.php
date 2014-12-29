@@ -17,7 +17,7 @@
  * @copyright  Copyright (c) 2008-2009 ZF Debug Bar Team (http://code.google.com/p/zfdebug)
  * @license    http://code.google.com/p/zfdebug/wiki/License     New BSD License
  */
-class ZFDebug_Controller_Plugin_Debug_Plugin_Auth implements ZFDebug_Controller_Plugin_Debug_Plugin_Interface
+class ZFDebug_Controller_Plugin_Debug_Plugin_Auth extends ZFDebug_Controller_Plugin_Debug_Plugin implements ZFDebug_Controller_Plugin_Debug_Plugin_Interface
 {
     /**
      * Contains plugin identifier name
@@ -48,7 +48,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Auth implements ZFDebug_Controller_
     protected $_role = 'role';
 
     /**
-     * Contains "column name" for the role
+     * Function to get real world value for the user name
      *
      * @var string
      */
@@ -77,7 +77,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Auth implements ZFDebug_Controller_
         if (isset($options['role'])) {
             $this->_role = $options['role'];
         }
-        if (isset($options['callback'])) {
+        if (isset($options['callback']) && is_callable($options['callback'])) {
             $this->_callback = $options['callback'];
         }
     }
@@ -123,8 +123,8 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Auth implements ZFDebug_Controller_
             $username = $this->_auth->getIdentity();
             $role = '';
         }
-        if (is_callable($this->_callback)) {
-            $username = $this->_callback($username);
+        if (!empty($this->_callback) && is_callable($this->_callback)) {
+            $username = call_user_func($this->_callback, $username);
         }
         return $username . ' (' . $role . ')';
     }
