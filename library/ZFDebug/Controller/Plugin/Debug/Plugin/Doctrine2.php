@@ -53,6 +53,9 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Doctrine2
     public function __construct(array $options = array())
     {
         if (isset($options['entityManagers'])) {
+            if (is_string($options['entityManagers'])) {
+                $options['entityManagers'] = \Zend_Registry::get($options['entityManagers']);
+            }
             $this->_em = $options['entityManagers'];
         }
     }
