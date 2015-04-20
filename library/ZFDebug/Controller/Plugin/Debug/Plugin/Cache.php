@@ -49,6 +49,9 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Cache
         if (!isset($options['backend'])) {
             throw new Zend_Exception("ZFDebug: Cache plugin needs 'backend' parameter");
         }
+        if (is_string($options['backend'])) {
+            $options['backend'] = \Zend_Registry::get($options['backend']);
+        }
         is_array($options['backend']) || $options['backend'] = array($options['backend']);
         foreach ($options['backend'] as $name => $backend) {
             if ($backend instanceof Zend_Cache_Backend_ExtendedInterface ) {
