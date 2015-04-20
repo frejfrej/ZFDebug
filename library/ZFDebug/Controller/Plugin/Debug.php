@@ -121,7 +121,7 @@ class ZFDebug_Controller_Plugin_Debug extends Zend_Controller_Plugin_Abstract
      */
     public function getLogger()
     {
-        return $this->getPlugin('Log')->logger();
+        return $this->getPlugin('Log');
     }
 
     /**
