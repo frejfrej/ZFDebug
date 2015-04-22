@@ -31,6 +31,13 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Exception
     protected $_identifier = 'exception';
 
     /**
+     * Original error handler
+     *
+     * @var callable
+     */
+    protected $_originalErrorHandler = null;
+
+    /**
      * Contains any errors
      *
      * @var param array
@@ -85,7 +92,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Exception
     {
         Zend_Controller_Front::getInstance()->registerPlugin($this);
 
-        set_error_handler(array($this , 'errorHandler'));
+        $this->_originalErrorHandler = set_error_handler(array($this , 'errorHandler'));
     }
 
     /**
@@ -118,7 +125,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Exception
      * @param string $line
      * @return bool
      */
-    public static function errorHandler($level, $message, $file, $line)
+    public function errorHandler($level, $message, $file, $line)
     {
         if (! ($level & error_reporting()))
             return false;
@@ -162,6 +169,10 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Exception
 
         if (($logger = self::getLogger())) {
             $logger->$method($message);
+        }
+
+        if ($this->_originalErrorHandler) {
+            return call_user_func_array($this->_originalErrorHandler, func_get_args());
         }
         return false;
     }
