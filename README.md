@@ -41,6 +41,7 @@ folder. Then add the following method to your bootstrap class (in ZF1.8+):
 	    $frontController->registerPlugin($debug);
 	}
 	
+
 Doctrine 1 Plugin
 ------------
 Here is example configuration for using the Doctrine Plugin:
@@ -104,6 +105,62 @@ Here is example configuration for using the Doctrine2 Plugin:
 		}
 	}
 
+Sample Zend Plugin to load the ZFDebug toolbar
+------------
+
+Some use case will require that you set up callback functions. Especially, these happen to occur in the following plugins:
+- cache: the callback function is called when asked to clean the cache
+- language: the callback is called when we try to change the active language
+- auth: the callback is used to retrieve the real username when the default plugin would only give an id
+
+You can leverage those functionalities by setting the following class:
+			
+	<?php
+	class Yujia_Controller_Plugin_Debug extends ZFDebug_Controller_Plugin_Debug
+	{
+	    public function __construct($options = null)
+	    {
+	        // avoids constructing before required vars are available
+	    }
+	    
+	    public function preDispatch(Zend_Controller_Request_Abstract $request)
+	    {
+	        if (APPLICATION_ENV !== 'production') {
+	            
+	            $auth_callback = function ($raw_user) {
+	                // do the job for getting the real username from the raw data you would typically retrieve
+	            };
+	            
+	            $locale_callback = function () {
+	                // do the job for changing locale
+	            };
+	            
+	            $cache_callback = function () {
+	            	// do the job for clearing the cache
+	            };
+	            
+	            $this->_options = array(
+	                'image_path' => null,
+	                'plugins' =>
+	                    array(
+	                        'Variables',
+	                        'ZFDebug_Controller_Plugin_Debug_Plugin_Doctrine2'	=> array(
+	                            'entityManagers' => array(\Zend_Registry::get('em')),
+	                        ),
+	                        'File' => array('base_path' => APPLICATION_PATH . '/../'),
+	                        'Cache' => array('backend' => 'Zend_Cache', 'callback' => $cache_callback),
+	                        'Exception',
+	                        'Html',
+	                        'Locale' => array('callback' => $locale_callback),
+	                        'Auth' => array('user' => 'id', 'callback' => $auth_callback),
+	                    )
+	            );
+	            // Registering Debug plugin
+	            parent::__construct();
+	        }
+	    }
+	}
+
 Using Composer
 --------------
 You may now install ZFDebug using the dependency management tool Composer.
@@ -112,7 +169,7 @@ To use ZFDebug with Composer, add the following to the require list in your
 project's composer.json file:
 
 	"require": {
-	    "jokkedk/zfdebug": "1.6.2"
+	    "frejfrej/zfdebug": "1.6.2"
 	},
 
 Run the install command to resolve and download the dependencies:
